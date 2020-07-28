@@ -34,6 +34,10 @@ public class Player : MonoBehaviour
     [SerializeField]
     private float _speed = 5.0f;
     [SerializeField]
+    private float _normalSpeed = 5.0f;
+    [SerializeField]
+    private float _thrustingSpeed = 7.5f;
+    [SerializeField]
     private float _speedMultiplier = 2.0f;
     [SerializeField]
     private float _fireRate = 0.5f;
@@ -104,6 +108,16 @@ public class Player : MonoBehaviour
         float _horizontalInput = Input.GetAxis("Horizontal");
         float _verticalInput = Input.GetAxis("Vertical");
         Vector3 _moveAmount = new Vector3(_horizontalInput, _verticalInput, 0);
+
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            _speed = _thrustingSpeed;
+        }
+        else
+        {
+            _speed = _normalSpeed;
+        }
+
         _moveAmount *= _speed * Time.deltaTime;
         transform.Translate(_moveAmount);
 
@@ -124,23 +138,28 @@ public class Player : MonoBehaviour
     void FireLaser()
     {
         _canFire = Time.time + _fireRate;
+
         if (_tripleShotActive == true)
         {
-            GameObject _tripleShot = Instantiate(_tripleShotPrefab, transform.position, Quaternion.identity);
-            foreach (Transform child in _tripleShot.transform)
+            GameObject tripleShot = Instantiate(_tripleShotPrefab, transform.position, Quaternion.identity);
+            foreach (Transform child in tripleShot.transform)
             {
-                Laser _script = child.GetComponent<Laser>();
-                _script._shooter = this.gameObject;
+                Laser script = child.GetComponent<Laser>();
+                script._shooter = this.gameObject;
+                script._direction = "UP"; 
             }
         }
         else
         {
-            GameObject _laser = Instantiate(_laserPrefab, transform.position + (Vector3.up * _laserOffset), Quaternion.identity);
-            _laser.GetComponent<Laser>()._shooter = this.gameObject;
+            GameObject laser = Instantiate(_laserPrefab, transform.position + (Vector3.up * _laserOffset), Quaternion.identity);
+            Laser script = laser.GetComponent<Laser>();
+            script._shooter = this.gameObject;
+            script._direction = "UP";
         }
 
         _audioSource.clip = _laserSoundClip;
         _audioSource.Play();
+
     }
 
     public void Damage()
@@ -150,8 +169,8 @@ public class Player : MonoBehaviour
 
             if (_lives == 3)
             {
-                int _hitEngine = Random.Range(0, 10);
-                if (_hitEngine < 5)
+                int _hitEngine = Random.Range(0, 2);
+                if (_hitEngine == 0)
                 {
                     _leftEngine.SetActive(true);
                 }
@@ -196,13 +215,14 @@ public class Player : MonoBehaviour
         _tripleShotActive = true;
         StartCoroutine(TripleShotPowerDownRoutine());
     }
-
+    
     public void ActivateSpeedBoost()
     {
         _audioSource.clip = _powerUpClip;
         _audioSource.Play();
         _speedBoostActive = true;
-        _speed *= _speedMultiplier;
+        _normalSpeed *= _speedMultiplier;
+        _thrustingSpeed *= _speedMultiplier;
         StartCoroutine(SpeedBoostPowerDownRoutine());
     }
 
@@ -229,7 +249,8 @@ public class Player : MonoBehaviour
     IEnumerator SpeedBoostPowerDownRoutine()
     {
         yield return new WaitForSeconds(5.0f);
-        _speed /= _speedMultiplier;
+        _normalSpeed /= _speedMultiplier;
+        _thrustingSpeed /= _speedMultiplier;
         _speedBoostActive = false;
     }
     

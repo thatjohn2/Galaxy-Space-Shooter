@@ -27,6 +27,7 @@ public class UIManager : MonoBehaviour
     {
         _gameOverText.SetActive(false);
         _scoreText.text = "Score: " + 0;
+
         _gameManager = GameObject.Find("Game_Manager").GetComponent<GameManager>();
 
         if (_gameManager == null)

@@ -108,14 +108,18 @@ public class Enemy : MonoBehaviour
             float _spriteHeightHalf = GetComponent<BoxCollider2D>().size.y / 2;
             if (_shotLeft)
             {
-                GameObject _laser = Instantiate(_laserPrefab, transform.position + (Vector3.down * _spriteHeightHalf) + (Vector3.right * 0.18f), Quaternion.identity);
-                _laser.GetComponent<Laser>()._shooter = this.gameObject;
+                GameObject laser = Instantiate(_laserPrefab, transform.position + (Vector3.down * _spriteHeightHalf) + (Vector3.right * 0.18f), Quaternion.identity);
+                Laser script = laser.GetComponent<Laser>();
+                script._shooter = this.gameObject;
+                script._direction = "DOWN";
                 _shotLeft = false;
             }
             else
             {
-                GameObject _laser = Instantiate(_laserPrefab, transform.position + (Vector3.down * _spriteHeightHalf) + (Vector3.left * 0.18f), Quaternion.identity);
-                _laser.GetComponent<Laser>()._shooter = this.gameObject;
+                GameObject laser = Instantiate(_laserPrefab, transform.position + (Vector3.down * _spriteHeightHalf) + (Vector3.left * 0.18f), Quaternion.identity);
+                Laser script = laser.GetComponent<Laser>();
+                script._shooter = this.gameObject;
+                script._direction = "DOWN";
                 _shotLeft = true;
             }
             

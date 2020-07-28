@@ -15,12 +15,6 @@ public class SpawnManager : MonoBehaviour
 
     private bool _stopSpawning = false;
 
-    public void StartSpawnRoutine()
-    {
-        StartCoroutine(SpawnEnemyRoutine());
-        StartCoroutine(SpawnPowerupRoutine());
-    }
-
     // Update is called once per frame
     void Update()
     {
@@ -46,9 +40,29 @@ public class SpawnManager : MonoBehaviour
         {
             yield return new WaitForSeconds(Random.Range(3f, 7f));
             Vector3 posToSpawn = new Vector3(Random.Range(-8f, 8f), 7, 0);
-            int randomPowerup = Random.Range(0, 3);
-            GameObject newPowerup = Instantiate(_powerups[randomPowerup], posToSpawn, Quaternion.identity);
+            int powerupLottery = Random.Range(0, 4);
+            if (powerupLottery == 0)
+            {
+                int powerupID = 0;
+                GameObject newPowerup = Instantiate(_powerups[powerupID], posToSpawn, Quaternion.identity);
+            }
+            else if (powerupLottery == 1)
+            {
+                int powerupID = 1;
+                GameObject newPowerup = Instantiate(_powerups[powerupID], posToSpawn, Quaternion.identity);
+            }
+            else
+            {
+                int powerupID = 2;
+                GameObject newPowerup = Instantiate(_powerups[powerupID], posToSpawn, Quaternion.identity);
+            }
         }
+    }
+
+    public void StartSpawnRoutine()
+    {
+        StartCoroutine(SpawnEnemyRoutine());
+        StartCoroutine(SpawnPowerupRoutine());
     }
 
     public void onPlayerDeath()

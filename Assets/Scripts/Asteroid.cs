@@ -10,8 +10,6 @@ public class Asteroid : MonoBehaviour
     [SerializeField]
     private GameObject _explosionPrefab;
 
-    private GameObject _explosion;
-
     private SpawnManager _spawnManager;
 
     private void Start()
@@ -37,6 +35,7 @@ public class Asteroid : MonoBehaviour
             Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
             Destroy(other.gameObject);
             _spawnManager.StartSpawnRoutine();
+            Destroy(GetComponent<Collider2D>());
             Destroy(gameObject, 1.0f);
         }
     }

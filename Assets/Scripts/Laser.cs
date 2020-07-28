@@ -7,7 +7,7 @@ public class Laser : MonoBehaviour
     [SerializeField]
     private float _speed = 8f;
 
-    private string _direction;
+    public string _direction;
 
     public GameObject _shooter;
 
@@ -18,14 +18,6 @@ public class Laser : MonoBehaviour
         {
             Debug.LogError("The Laser's Shooter is NULL.");
         }
-        else if (_shooter.tag == "Player")
-        {
-            _direction = "UP";
-        }
-        else if (_shooter.tag == "Enemy")
-        {
-            _direction = "DOWN";
-        }
     }
 
     // Update is called once per frame
@@ -33,12 +25,16 @@ public class Laser : MonoBehaviour
     {
         if (_direction == "UP")
         {
-            transform.Translate(Vector3.up * _speed * Time.deltaTime);
+            transform.Translate(Vector3.up * _speed * Time.deltaTime, Space.World);
         }
         else if (_direction == "DOWN")
         {
-            transform.Translate(Vector3.down * _speed * Time.deltaTime);
+            transform.Translate(Vector3.down * _speed * Time.deltaTime, Space.World);
         }
+
+        float laserX = transform.position.x;
+        float laserY = transform.position.y;
+        float laserZ = transform.position.z;
 
         if (transform.position.y >= 8)
         {
