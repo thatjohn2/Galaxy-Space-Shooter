@@ -1955,6 +1955,7 @@ MonoBehaviour:
   - {fileID: 9145281024976305459, guid: 026e5766521dbf847bb45df7989066b8, type: 3}
   - {fileID: 4428064251986536862, guid: 5296f2caafb82774585c529e47625000, type: 3}
   - {fileID: 4428064251986536862, guid: c31c08279d0c343439b521a69ac0eea9, type: 3}
+  - {fileID: 9145281024976305459, guid: 6cd9f6dc6216cf645a8410f4b348b350, type: 3}
 --- !u!4 &1867280315
 Transform:
   m_ObjectHideFlags: 0

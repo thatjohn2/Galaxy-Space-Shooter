@@ -285,6 +285,47 @@ public class Player : MonoBehaviour
         _uiManager.UpdateAmmo(_ammoCount);
     }
 
+    public void ActivateHealthBoost()
+    {
+        if (_lives == 3)
+        {
+            _audioSource.clip = _noAmmoClip;
+            _audioSource.Play();
+        }
+        else if (_lives == 2)
+        {
+            _audioSource.clip = _powerUpClip;
+            _audioSource.Play();
+            _lives++;
+            _uiManager.UpdateLives(_lives);
+            if (_leftEngine.activeInHierarchy == true)
+            {
+                _leftEngine.SetActive(false);
+            }
+            else
+            {
+                _rightEngine.SetActive(false);
+            }
+        }
+        else if (_lives == 1)
+        {
+            _audioSource.clip = _powerUpClip;
+            _audioSource.Play();
+            _lives++;
+            _uiManager.UpdateLives(_lives);
+            int healEngine = Random.Range(0, 2);
+            if (healEngine == 0)
+            {
+                _leftEngine.SetActive(false);
+            }
+            else
+            {
+                _rightEngine.SetActive(false);
+            }
+        }
+
+    }
+
     public void AddScore(int points)
     {
         _score += points;

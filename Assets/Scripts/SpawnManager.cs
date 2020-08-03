@@ -13,6 +13,8 @@ public class SpawnManager : MonoBehaviour
     [SerializeField]
     private GameObject[] _powerups;
 
+    int powerupID;
+
     private bool _stopSpawning = false;
 
     // Update is called once per frame
@@ -38,29 +40,30 @@ public class SpawnManager : MonoBehaviour
         yield return new WaitForSeconds(5);
         while (_stopSpawning == false)
         {
-            yield return new WaitForSeconds(Random.Range(3f, 7f));
+            yield return new WaitForSeconds(Random.Range(1f, 1f)); //3f - 7f
             Vector3 posToSpawn = new Vector3(Random.Range(-8f, 8f), 7, 0);
-            int powerupLottery = Random.Range(0, 4);
+            int powerupLottery = Random.Range(0, 5);
             if (powerupLottery == 0)
             {
-                int powerupID = 0;
-                GameObject newPowerup = Instantiate(_powerups[powerupID], posToSpawn, Quaternion.identity);
+                powerupID = 0;
             }
             else if (powerupLottery == 1)
             {
-                int powerupID = 1;
-                GameObject newPowerup = Instantiate(_powerups[powerupID], posToSpawn, Quaternion.identity);
+                powerupID = 1;
             }
             else if (powerupLottery == 2)
             {
-                int powerupID = 2;
-                GameObject newPowerup = Instantiate(_powerups[powerupID], posToSpawn, Quaternion.identity);
+                powerupID = 2;
+            }
+            else if (powerupLottery == 3)
+            {
+                powerupID = 3;
             }
             else
             {
-                int powerupID = 3;
-                GameObject newPowerup = Instantiate(_powerups[powerupID], posToSpawn, Quaternion.identity);
+                powerupID = 4;
             }
+            GameObject newPowerup = Instantiate(_powerups[powerupID], posToSpawn, Quaternion.identity);
         }
     }
 
