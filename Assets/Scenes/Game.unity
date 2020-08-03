@@ -452,8 +452,8 @@ GameObject:
   - component: {fileID: 541790288}
   - component: {fileID: 541790287}
   - component: {fileID: 541790289}
-  - component: {fileID: 541790286}
   - component: {fileID: 541790290}
+  - component: {fileID: 541790286}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -470,12 +470,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 541790285}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe7b0c5d04f4b2246abf8d77200bf3c4, type: 3}
+  m_Script: {fileID: 11500000, guid: ee35f3f3b4d3c924097e9dca91272486, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _topWall: 0
   _bottomWall: -4
-  _sideWall: 10.3
+  _sideWall: 10
   _laserPrefab: {fileID: 7629846588289884968, guid: eb0e617821b144441956974e6d5c026d,
     type: 3}
   _tripleShotPrefab: {fileID: 7191245824141387374, guid: 95cc11885a77bd0499f9e92416b29a30,
@@ -487,6 +487,7 @@ MonoBehaviour:
   _powerUpClip: {fileID: 8300000, guid: 5ee343246919d2b4bba63ae629e95494, type: 3}
   _lives: 3
   _score: 0
+  _shieldLives: 0
   _speed: 5
   _normalSpeed: 5
   _thrustingSpeed: 7.5
@@ -494,7 +495,10 @@ MonoBehaviour:
   _fireRate: 0.5
   _tripleShotActive: 0
   _speedBoostActive: 0
-  _shieldActive: 0
+  _shieldColor: {r: 1, g: 1, b: 1, a: 1}
+  _firstColor: {r: 1, g: 1, b: 1, a: 1}
+  _secondColor: {r: 0.73333335, g: 0.18039216, b: 0.7294118, a: 1}
+  _thirdColor: {r: 1, g: 0, b: 0.047058824, a: 1}
 --- !u!212 &541790287
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1500,7 +1504,6 @@ RectTransform:
   - {fileID: 464417830}
   - {fileID: 870074568}
   - {fileID: 676839287}
-  - {fileID: 1639471726}
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1530,84 +1533,6 @@ MonoBehaviour:
   _livesImg: {fileID: 464417828}
   _gameOverText: {fileID: 870074567}
   _restartText: {fileID: 676839284}
---- !u!1 &1639471723
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1639471726}
-  - component: {fileID: 1639471725}
-  - component: {fileID: 1639471724}
-  m_Layer: 5
-  m_Name: Ammo_Count
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1639471724
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1639471723}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 20
-    m_FontStyle: 0
-    m_BestFit: 0
-    m_MinSize: 2
-    m_MaxSize: 40
-    m_Alignment: 0
-    m_AlignByGeometry: 0
-    m_RichText: 1
-    m_HorizontalOverflow: 0
-    m_VerticalOverflow: 0
-    m_LineSpacing: 1
-  m_Text: 'Ammo: 15'
---- !u!222 &1639471725
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1639471723}
-  m_CullTransparentMesh: 0
---- !u!224 &1639471726
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1639471723}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1636963964}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 116, y: 30}
-  m_SizeDelta: {x: 160, y: 30}
-  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1675901998 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8492098036175754332, guid: 2f89918980f770f458e133539e94ad0a,

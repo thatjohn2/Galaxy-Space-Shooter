@@ -11,6 +11,7 @@ public class Player : MonoBehaviour
     private AudioSource _audioSource;
     private SpawnManager _spawnManager;
     private UIManager _uiManager;
+    private SpriteRenderer _shieldSpriteRenderer;
 
     [SerializeField]
     private GameObject _laserPrefab;
@@ -30,6 +31,8 @@ public class Player : MonoBehaviour
     private int _lives = 3;
     [SerializeField]
     private int _score = 0;
+    [SerializeField]
+    private int _shieldLives = 0;
 
     [SerializeField]
     private float _speed = 5.0f;
@@ -48,8 +51,15 @@ public class Player : MonoBehaviour
     private bool _tripleShotActive = false;
     [SerializeField]
     private bool _speedBoostActive = false;
+
     [SerializeField]
-    private bool _shieldActive = false;
+    private Color _shieldColor;
+    [SerializeField]
+    private Color _firstColor;
+    [SerializeField]
+    private Color _secondColor;
+    [SerializeField]
+    private Color _thirdColor;
 
     // Start is called before the first frame update
     void Start()
@@ -59,6 +69,7 @@ public class Player : MonoBehaviour
         _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
         _audioSource = GetComponent<AudioSource>();
+        _shieldSpriteRenderer = _shieldVisual.GetComponent<SpriteRenderer>();
 
         if (_spawnManager == null)
         {
@@ -77,6 +88,11 @@ public class Player : MonoBehaviour
         else
         {
             _audioSource.clip = _laserSoundClip;
+        }
+
+        if (_shieldSpriteRenderer == null)
+        {
+            Debug.LogError("The Shield's sprite renderer is NULL.");
         }
     }
 
@@ -164,7 +180,7 @@ public class Player : MonoBehaviour
 
     public void Damage()
     {
-        if (_shieldActive == false)
+        if (_shieldLives == 0)
         {
 
             if (_lives == 3)
@@ -203,8 +219,20 @@ public class Player : MonoBehaviour
         }
         else
         {
-            _shieldActive = false;
-            _shieldVisual.SetActive(false);
+            _shieldLives--;
+            if (_shieldLives == 2)
+            {
+                _shieldSpriteRenderer.color = _secondColor;
+            }
+            else if (_shieldLives == 1)
+            {
+                _shieldSpriteRenderer.color = _thirdColor;
+            }
+            else if (_shieldLives == 0)
+            {
+                _shieldSpriteRenderer.color = _firstColor;
+                _shieldVisual.SetActive(false);
+            }
         }
     }
 
@@ -230,7 +258,8 @@ public class Player : MonoBehaviour
     {
         _audioSource.clip = _powerUpClip;
         _audioSource.Play();
-        _shieldActive = true;
+        _shieldLives = 3;
+        _shieldSpriteRenderer.color = _firstColor;
         _shieldVisual.SetActive(true);
     }
 
