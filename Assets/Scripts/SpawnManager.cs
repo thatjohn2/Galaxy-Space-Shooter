@@ -51,9 +51,14 @@ public class SpawnManager : MonoBehaviour
                 int powerupID = 1;
                 GameObject newPowerup = Instantiate(_powerups[powerupID], posToSpawn, Quaternion.identity);
             }
-            else
+            else if (powerupLottery == 2)
             {
                 int powerupID = 2;
+                GameObject newPowerup = Instantiate(_powerups[powerupID], posToSpawn, Quaternion.identity);
+            }
+            else
+            {
+                int powerupID = 3;
                 GameObject newPowerup = Instantiate(_powerups[powerupID], posToSpawn, Quaternion.identity);
             }
         }

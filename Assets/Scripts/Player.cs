@@ -277,6 +277,14 @@ public class Player : MonoBehaviour
         _shieldVisual.SetActive(true);
     }
 
+    public void ActivateAmmoBoost()
+    {
+        _audioSource.clip = _powerUpClip;
+        _audioSource.Play();
+        _ammoCount = 15;
+        _uiManager.UpdateAmmo(_ammoCount);
+    }
+
     public void AddScore(int points)
     {
         _score += points;
