@@ -26,6 +26,8 @@ public class Player : MonoBehaviour
     private AudioClip _laserSoundClip;
     [SerializeField]
     private AudioClip _powerUpClip;
+    [SerializeField]
+    private AudioClip _noAmmoClip;
 
     [SerializeField]
     private int _lives = 3;
@@ -33,6 +35,8 @@ public class Player : MonoBehaviour
     private int _score = 0;
     [SerializeField]
     private int _shieldLives = 0;
+    [SerializeField]
+    private int _ammoCount = 15;
 
     [SerializeField]
     private float _speed = 5.0f;
@@ -153,29 +157,39 @@ public class Player : MonoBehaviour
 
     void FireLaser()
     {
-        _canFire = Time.time + _fireRate;
-
-        if (_tripleShotActive == true)
+        if (_ammoCount > 0)
         {
-            GameObject tripleShot = Instantiate(_tripleShotPrefab, transform.position, Quaternion.identity);
-            foreach (Transform child in tripleShot.transform)
+            _canFire = Time.time + _fireRate;
+            _ammoCount--;
+            _uiManager.UpdateAmmo(_ammoCount);
+
+            if (_tripleShotActive == true)
             {
-                Laser script = child.GetComponent<Laser>();
-                script._shooter = this.gameObject;
-                script._direction = "UP"; 
+                GameObject tripleShot = Instantiate(_tripleShotPrefab, transform.position, Quaternion.identity);
+                foreach (Transform child in tripleShot.transform)
+                {
+                    Laser script = child.GetComponent<Laser>();
+                    script._shooter = this.gameObject;
+                    script._direction = "UP"; 
+                }
             }
+            else
+            {
+                GameObject laser = Instantiate(_laserPrefab, transform.position + (Vector3.up * _laserOffset), Quaternion.identity);
+                Laser script = laser.GetComponent<Laser>();
+                script._shooter = this.gameObject;
+                script._direction = "UP";
+            }
+
+            _audioSource.clip = _laserSoundClip;
+            _audioSource.Play();
         }
         else
         {
-            GameObject laser = Instantiate(_laserPrefab, transform.position + (Vector3.up * _laserOffset), Quaternion.identity);
-            Laser script = laser.GetComponent<Laser>();
-            script._shooter = this.gameObject;
-            script._direction = "UP";
+            _canFire = Time.time + _fireRate;
+            _audioSource.clip = _noAmmoClip;
+            _audioSource.Play();
         }
-
-        _audioSource.clip = _laserSoundClip;
-        _audioSource.Play();
-
     }
 
     public void Damage()
