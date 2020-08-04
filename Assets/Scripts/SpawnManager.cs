@@ -20,7 +20,7 @@ public class SpawnManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     IEnumerator SpawnEnemyRoutine()
@@ -40,28 +40,32 @@ public class SpawnManager : MonoBehaviour
         yield return new WaitForSeconds(5);
         while (_stopSpawning == false)
         {
-            yield return new WaitForSeconds(Random.Range(1f, 1f)); //3f - 7f
+            yield return new WaitForSeconds(Random.Range(1f, 1f));
             Vector3 posToSpawn = new Vector3(Random.Range(-8f, 8f), 7, 0);
-            int powerupLottery = Random.Range(0, 5);
-            if (powerupLottery == 0)
+            int powerupLottery = Random.Range(0, 11);
+            if (powerupLottery < 2)
             {
                 powerupID = 0;
             }
-            else if (powerupLottery == 1)
+            else if (powerupLottery < 4)
             {
                 powerupID = 1;
             }
-            else if (powerupLottery == 2)
+            else if (powerupLottery < 6)
             {
                 powerupID = 2;
             }
-            else if (powerupLottery == 3)
+            else if (powerupLottery < 8)
             {
                 powerupID = 3;
             }
-            else
+            else if (powerupLottery < 10)
             {
                 powerupID = 4;
+            }
+            else
+            {
+                powerupID = 5;
             }
             GameObject newPowerup = Instantiate(_powerups[powerupID], posToSpawn, Quaternion.identity);
         }

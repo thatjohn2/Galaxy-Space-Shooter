@@ -480,6 +480,8 @@ MonoBehaviour:
     type: 3}
   _tripleShotPrefab: {fileID: 7191245824141387374, guid: 95cc11885a77bd0499f9e92416b29a30,
     type: 3}
+  _sideShotPrefab: {fileID: 246895895183669368, guid: fecae640010d81241945921a57370aee,
+    type: 3}
   _shieldVisual: {fileID: 1260198869}
   _leftEngine: {fileID: 1168490656}
   _rightEngine: {fileID: 72003535}
@@ -497,6 +499,7 @@ MonoBehaviour:
   _fireRate: 0.5
   _tripleShotActive: 0
   _speedBoostActive: 0
+  _sideShotActive: 0
   _shieldColor: {r: 1, g: 1, b: 1, a: 1}
   _firstColor: {r: 1, g: 1, b: 1, a: 1}
   _secondColor: {r: 0.73333335, g: 0.18039216, b: 0.7294118, a: 1}
@@ -1956,6 +1959,7 @@ MonoBehaviour:
   - {fileID: 4428064251986536862, guid: 5296f2caafb82774585c529e47625000, type: 3}
   - {fileID: 4428064251986536862, guid: c31c08279d0c343439b521a69ac0eea9, type: 3}
   - {fileID: 9145281024976305459, guid: 6cd9f6dc6216cf645a8410f4b348b350, type: 3}
+  - {fileID: 2425209635722023999, guid: 4c9b03f4ad8ffef4e9723fdbc88cf486, type: 3}
 --- !u!4 &1867280315
 Transform:
   m_ObjectHideFlags: 0

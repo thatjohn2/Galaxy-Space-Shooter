@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+
     public float _topWall = 0f;
     public float _bottomWall = -4f;
     public float _sideWall = 10f;
@@ -17,6 +18,8 @@ public class Player : MonoBehaviour
     private GameObject _laserPrefab;
     [SerializeField]
     private GameObject _tripleShotPrefab;
+    [SerializeField]
+    private GameObject _sideShotPrefab;
     [SerializeField]
     private GameObject _shieldVisual;
     [SerializeField]
@@ -55,6 +58,8 @@ public class Player : MonoBehaviour
     private bool _tripleShotActive = false;
     [SerializeField]
     private bool _speedBoostActive = false;
+    [SerializeField]
+    private bool _sideShotActive = false;
 
     [SerializeField]
     private Color _shieldColor;
@@ -79,7 +84,7 @@ public class Player : MonoBehaviour
         {
             Debug.LogError("The Spawn Manager is NULL.");
         }
-        
+
         if (_uiManager == null)
         {
             Debug.LogError("The UI Manager is NULL.");
@@ -170,7 +175,24 @@ public class Player : MonoBehaviour
                 {
                     Laser script = child.GetComponent<Laser>();
                     script._shooter = this.gameObject;
-                    script._direction = "UP"; 
+                    script._direction = "UP";
+                }
+            }
+            else if (_sideShotActive == true)
+            {
+                GameObject sideShot = Instantiate(_sideShotPrefab, transform.position, Quaternion.identity);
+                foreach (Transform child in sideShot.transform)
+                {
+                    Laser script = child.GetComponent<Laser>();
+                    script._shooter = this.gameObject;
+                    if (child.name == "laser_Left")
+                    {
+                        script._direction = "LEFT";
+                    }
+                    else if (child.name == "laser_Right")
+                    {
+                        script._direction = "RIGHT";
+                    }
                 }
             }
             else
@@ -257,7 +279,15 @@ public class Player : MonoBehaviour
         _tripleShotActive = true;
         StartCoroutine(TripleShotPowerDownRoutine());
     }
-    
+
+    public void ActivateSideShot()
+    {
+        _audioSource.clip = _powerUpClip;
+        _audioSource.Play();
+        _sideShotActive = true;
+        StartCoroutine(SideShotPowerDownRoutine());
+    }
+
     public void ActivateSpeedBoost()
     {
         _audioSource.clip = _powerUpClip;
@@ -337,7 +367,7 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(5.0f);
         _tripleShotActive = false;
     }
-    
+
     IEnumerator SpeedBoostPowerDownRoutine()
     {
         yield return new WaitForSeconds(5.0f);
@@ -345,5 +375,11 @@ public class Player : MonoBehaviour
         _thrustingSpeed /= _speedMultiplier;
         _speedBoostActive = false;
     }
-    
+
+    IEnumerator SideShotPowerDownRoutine()
+    {
+        yield return new WaitForSeconds(5.0f);
+        _sideShotActive = false;
+    }
+
 }
