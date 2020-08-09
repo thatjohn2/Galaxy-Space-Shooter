@@ -23,6 +23,19 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private GameObject _restartText;
 
+    [SerializeField]
+    private GameObject _chargeFillBar;
+
+    [SerializeField]
+    private GameObject _barStartObject;
+
+    private Vector3 _barStart;
+    private Vector3 _barScale;
+
+    private RectTransform _barRect;
+
+    private float _maxCharge = 100f;
+
     private GameManager _gameManager;
 
     // Start is called before the first frame update
@@ -31,12 +44,24 @@ public class UIManager : MonoBehaviour
         _gameOverText.SetActive(false);
         _scoreText.text = "Score: " + 0;
         _ammoText.text = "Ammo: " + 15;
+        _barRect = _chargeFillBar.GetComponent<RectTransform>();
+        _barScale = _barRect.localScale;
+
 
         _gameManager = GameObject.Find("Game_Manager").GetComponent<GameManager>();
 
         if (_gameManager == null)
         {
             Debug.LogError("Game Manager is Null");
+        }
+
+        if (_barStartObject == null)
+        {
+            Debug.LogError("bar start object is NULL");
+        }
+        else
+        {
+            _barStart = _barStartObject.transform.position;
         }
     }
 
@@ -61,6 +86,15 @@ public class UIManager : MonoBehaviour
             _restartText.SetActive(true);
             StartCoroutine(GameOverTextFlicker());
         }
+    }
+
+    public void UpdateCharge(float currentCharge)
+    {
+        _barRect.localScale = Vector3.Scale(new Vector3(currentCharge / _maxCharge, 1, 1), _barScale);
+        Vector3[] corners = new Vector3[4];
+        _barRect.GetWorldCorners(corners);
+        float width = Mathf.Abs(corners[0].x - corners[3].x);
+        _barRect.position = _barStart - new Vector3(width / 2, 0, 0);
     }
 
     IEnumerator GameOverTextFlicker()

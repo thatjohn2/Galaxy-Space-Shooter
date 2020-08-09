@@ -5,6 +5,26 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
 
+    /*
+    * Create a UI element
+    to visualize the charge
+    element of your
+    thrusters:
+    Create a hollow box to which contains another box that fills it, this box will change scale and position as the thrusters charge (+) and are used (-) to appear to be emptying a container
+    create a text element over the box that says thruster charge
+
+    ● Cool Down System
+    required:
+    thrusters charge up to a max of 100 while not in use
+    they use up charge as the shift key is held
+    charge should last 2 seconds and take 4 seconds to fully recharge
+    float maxcharge
+    float currentcharge
+    currentcharge += 1/sec
+    if shiftpressed and currentcharge > 0
+    then activate boost and currentcharge -= 2/sec
+    */
+
     public float _topWall = 0f;
     public float _bottomWall = -4f;
     public float _sideWall = 10f;
@@ -53,6 +73,13 @@ public class Player : MonoBehaviour
     private float _fireRate = 0.5f;
     private float _canFire = -1f;
     private float _laserOffset = 1.5f;
+    public float maxCharge = 100f;
+    [SerializeField]
+    private float _currentCharge = 100f;
+    [SerializeField]
+    private float _chargingSpeed = 25f;
+    [SerializeField]
+    private float _depletionFactor = 2f;
 
     [SerializeField]
     private bool _tripleShotActive = false;
@@ -136,12 +163,35 @@ public class Player : MonoBehaviour
 
         if (Input.GetKey(KeyCode.LeftShift))
         {
-            _speed = _thrustingSpeed;
+            if (_currentCharge > 0)
+            {
+                _currentCharge -= _chargingSpeed * _depletionFactor * Time.deltaTime;
+                _speed = _thrustingSpeed;
+            }
+            else
+            {
+                _speed = _normalSpeed;
+            }
+            if (_currentCharge < 0)
+            {
+
+                _currentCharge = 0;
+            }
         }
         else
         {
+            if (_currentCharge < maxCharge)
+            {
+                _currentCharge += _chargingSpeed * Time.deltaTime;
+            }
+            if (_currentCharge > maxCharge)
+            {
+                _currentCharge = maxCharge;
+            }
             _speed = _normalSpeed;
         }
+
+        _uiManager.UpdateCharge(_currentCharge);
 
         _moveAmount *= _speed * Time.deltaTime;
         transform.Translate(_moveAmount);
