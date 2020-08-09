@@ -29,6 +29,7 @@ public class Player : MonoBehaviour
     public float _bottomWall = -4f;
     public float _sideWall = 10f;
 
+    private ScreenShake _screenShake;
     private AudioSource _audioSource;
     private SpawnManager _spawnManager;
     private UIManager _uiManager;
@@ -102,6 +103,7 @@ public class Player : MonoBehaviour
     {
         transform.position = new Vector3(0, 0, 0);
 
+        _screenShake = GameObject.Find("Main Camera").GetComponent<ScreenShake>();
         _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
         _audioSource = GetComponent<AudioSource>();
@@ -268,6 +270,7 @@ public class Player : MonoBehaviour
     {
         if (_shieldLives == 0)
         {
+            _screenShake.StartShake();
 
             if (_lives == 3)
             {
