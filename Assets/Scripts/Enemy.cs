@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    [SerializeField]
-    private float _speed = 4f;
-
     private Player _player;
 
     private Animator _animator;
@@ -22,6 +19,18 @@ public class Enemy : MonoBehaviour
 
     private AudioSource _audioSource;
 
+    private RaycastHit2D _hitLeft;
+
+    private RaycastHit2D _hitRight;
+
+    [SerializeField]
+    private Vector3 _adjustment;
+
+    private Vector2 _colliderHalfWidth;
+
+    [SerializeField]
+    private float _speed = 4f;
+
     private bool _shotLeft = true;
 
     // Start is called before the first frame update
@@ -30,6 +39,7 @@ public class Enemy : MonoBehaviour
         _player = GameObject.FindGameObjectWithTag("Player").transform.GetComponent<Player>();
         _animator = GetComponent<Animator>();
         _audioSource = GetComponent<AudioSource>();
+        _colliderHalfWidth.x = GetComponent<BoxCollider2D>().size.x / 2;
 
         if (_player == null)
         {
@@ -56,12 +66,59 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.Translate(Vector3.down * _speed * Time.deltaTime);
+        _hitLeft = Physics2D.Raycast((Vector2)transform.position - _colliderHalfWidth, (Vector2.down));
+        _hitRight = Physics2D.Raycast((Vector2)transform.position + _colliderHalfWidth, (Vector2.down));
+        if (_hitLeft && _hitRight)
+        {
+            Debug.Log("Left Ray Hit: " + _hitLeft.transform.name + "Right Ray Hit: " + _hitRight.transform.name);
+            if (_hitLeft.transform.tag == "Enemy" && _hitRight.transform.tag == "Enemy")
+            {
+                int randomDirection = Random.Range(-1, 2);
+                if (randomDirection == 0)
+                {
+                    randomDirection = 1;
+                }
+                _adjustment.x = randomDirection;
+            }
+            else if (_hitLeft.transform.tag == "Enemy")
+            {
+                _adjustment.x = 1;
+            }
+            else if (_hitRight.transform.tag == "Enemy")
+            {
+                _adjustment.x = -1;
+            }
+        }
+        else if (_hitLeft)
+        {
+            Debug.Log("Left Ray Hit: " + _hitLeft.transform.name);
+            if (_hitLeft.transform.tag == "Enemy")
+            {
+                _adjustment.x = 1;
+            }
+        }
+        else if (_hitRight)
+        {
+            Debug.Log("Right Ray Hit: " + _hitRight.transform.name);
+            if (_hitRight.transform.tag == "Enemy")
+            {
+                _adjustment.x = -1;
+            }
+        }
+        else
+        {
 
-        if (transform.position.y <= -4)
+            Debug.Log("We dont see anything");
+
+        }
+
+        transform.Translate(_speed * Time.deltaTime * (Vector3.down + _adjustment));
+        _adjustment.x = 0;
+
+        if (transform.position.y <= -6)
         {
             float _randomX = Random.Range(-8, 8);
-            transform.position = new Vector3(_randomX, 7, 0);
+            transform.position = new Vector3(_randomX, 8, 0);
         }
     }
 
@@ -80,13 +137,15 @@ public class Enemy : MonoBehaviour
         }
         else if (other.tag == "Laser")
         {
-            Destroy(other.gameObject);
-            if (_player != null)
+            if (other.GetComponent<Laser>()._shooter.tag == "Player")
             {
-                _player.AddScore(10);
+                Destroy(other.gameObject);
+                if (_player != null)
+                {
+                    _player.AddScore(10);
+                }
+                DeathSequence();
             }
-
-            DeathSequence();
         }
     }
 

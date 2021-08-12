@@ -4,27 +4,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-
-    /*
-    * Create a UI element
-    to visualize the charge
-    element of your
-    thrusters:
-    Create a hollow box to which contains another box that fills it, this box will change scale and position as the thrusters charge (+) and are used (-) to appear to be emptying a container
-    create a text element over the box that says thruster charge
-
-    ● Cool Down System
-    required:
-    thrusters charge up to a max of 100 while not in use
-    they use up charge as the shift key is held
-    charge should last 2 seconds and take 4 seconds to fully recharge
-    float maxcharge
-    float currentcharge
-    currentcharge += 1/sec
-    if shiftpressed and currentcharge > 0
-    then activate boost and currentcharge -= 2/sec
-    */
-
+    
     public float _topWall = 0f;
     public float _bottomWall = -4f;
     public float _sideWall = 10f;
