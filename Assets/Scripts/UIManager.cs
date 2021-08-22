@@ -5,6 +5,13 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
+
+    /*
+     * create an empty object containing 15 image objects
+     * create an array and place those objects into it
+     * add functionality to the player's shoot function to cause each image object to successively be inactivated as ammo is used--
+     * and have all reactiveated upon collecting an ammo pickup
+     */
     [SerializeField]
     private Text _scoreText;
 
@@ -13,6 +20,9 @@ public class UIManager : MonoBehaviour
 
     [SerializeField]
     private Sprite[] _livesSprites;
+
+    [SerializeField]
+    private GameObject[] _ammoImages;
 
     [SerializeField]
     private Image _livesImg;
@@ -73,6 +83,19 @@ public class UIManager : MonoBehaviour
     public void UpdateAmmo(int ammo)
     {
         _ammoText.text = "Ammo: " + ammo;
+        if (ammo < 15)
+        {
+            _ammoImages[ammo].SetActive(false);
+        }
+        else
+        {
+            int i = 0;
+            while(i < ammo)
+            {
+                _ammoImages[i].SetActive(true);
+                i++;
+            }
+        }
     }
 
     public void UpdateLives(int currentLives)
