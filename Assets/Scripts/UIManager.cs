@@ -5,13 +5,6 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-
-    /*
-     * create an empty object containing 15 image objects
-     * create an array and place those objects into it
-     * add functionality to the player's shoot function to cause each image object to successively be inactivated as ammo is used--
-     * and have all reactiveated upon collecting an ammo pickup
-     */
     [SerializeField]
     private Text _scoreText;
 
