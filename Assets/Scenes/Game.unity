@@ -1083,6 +1083,7 @@ MonoBehaviour:
   _depletionFactor: 2
   _tripleShotActive: 0
   _speedBoostActive: 0
+  _slowActive: 0
   _sideShotActive: 0
   _shieldColor: {r: 1, g: 1, b: 1, a: 1}
   _firstColor: {r: 1, g: 1, b: 1, a: 1}
@@ -4471,6 +4472,7 @@ MonoBehaviour:
   - {fileID: 4428064251986536862, guid: c31c08279d0c343439b521a69ac0eea9, type: 3}
   - {fileID: 9145281024976305459, guid: 6cd9f6dc6216cf645a8410f4b348b350, type: 3}
   - {fileID: 2425209635722023999, guid: 4c9b03f4ad8ffef4e9723fdbc88cf486, type: 3}
+  - {fileID: 8600752259037142336, guid: 660dfda6bcfc922479479a9ee1f64981, type: 3}
 --- !u!4 &1867280315
 Transform:
   m_ObjectHideFlags: 0

@@ -6,7 +6,7 @@ public class PowerUp : MonoBehaviour
 {
     [SerializeField]
     private float _speed = 4.0f;
-    [SerializeField] //0 = TripleShot, 1 = Speed, 2 = Shield, 3 = Ammo, 4 = Health, 5 = SideShot
+    [SerializeField] //0 = TripleShot, 1 = Speed, 2 = Shield, 3 = Ammo, 4 = Health, 5 = SideShot, 6 = Slow
     private int _powerupID;
 
     // Start is called before the first frame update
@@ -53,6 +53,9 @@ public class PowerUp : MonoBehaviour
                         break;
                     case 5:
                         player.ActivateSideShot();
+                        break;
+                    case 6:
+                        player.ActivateSlow();
                         break;
                     default:
                         Debug.Log("Default Value");

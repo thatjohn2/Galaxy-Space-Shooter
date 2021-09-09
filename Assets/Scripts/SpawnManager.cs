@@ -4,13 +4,6 @@ using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
 {
-    /*
-     * Create a Wave system wherebye enemies appear one after another in groups
-     * each group should be bigger than the last
-     * crate a pause between waves to allow time for the player to deal with them
-     * spawn each enemy in a wave one second apart
-     * allow 10 seconds between waves to give players space to breath
-     */
     [SerializeField]
     private GameObject _enemyPrefab;
 
@@ -57,7 +50,7 @@ public class SpawnManager : MonoBehaviour
         {
             yield return new WaitForSeconds(Random.Range(3f, 7f));
             Vector3 posToSpawn = new Vector3(Random.Range(-8f, 8f), 7, 0);
-            int powerupLottery = Random.Range(0, 11);
+            int powerupLottery = Random.Range(0, 13);
             if (powerupLottery < 2)
             {
                 powerupID = 0;
@@ -78,9 +71,13 @@ public class SpawnManager : MonoBehaviour
             {
                 powerupID = 4;
             }
-            else
+            else if (powerupLottery < 12)
             {
                 powerupID = 5;
+            }
+            else
+            {
+                powerupID = 6;
             }
             GameObject newPowerup = Instantiate(_powerups[powerupID], posToSpawn, Quaternion.identity);
         }

@@ -67,6 +67,8 @@ public class Player : MonoBehaviour
     [SerializeField]
     private bool _speedBoostActive = false;
     [SerializeField]
+    private bool _slowActive = false;
+    [SerializeField]
     private bool _sideShotActive = false;
 
     [SerializeField]
@@ -331,6 +333,16 @@ public class Player : MonoBehaviour
         StartCoroutine(SpeedBoostPowerDownRoutine());
     }
 
+    public void ActivateSlow()
+    {
+        _audioSource.clip = _powerUpClip;
+        _audioSource.Play();
+        _slowActive = true;
+        _normalSpeed /= _speedMultiplier;
+        _thrustingSpeed /= _speedMultiplier;
+        StartCoroutine(SlowPowerDownRoutine());
+    }
+
     public void ActivateShield()
     {
         _audioSource.clip = _powerUpClip;
@@ -407,6 +419,14 @@ public class Player : MonoBehaviour
         _normalSpeed /= _speedMultiplier;
         _thrustingSpeed /= _speedMultiplier;
         _speedBoostActive = false;
+    }
+
+    IEnumerator SlowPowerDownRoutine()
+    {
+        yield return new WaitForSeconds(5.0f);
+        _normalSpeed *= _speedMultiplier;
+        _thrustingSpeed *= _speedMultiplier;
+        _slowActive = false;
     }
 
     IEnumerator SideShotPowerDownRoutine()
